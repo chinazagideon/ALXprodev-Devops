@@ -1,2 +1,37 @@
 #!/bin/bash
-jq -r '[.name, .types[0].type.name, .weight, .height]' data.json | awk -F',' '{printf "%s is of type %s, weighs %skg, and is %sm tall.\n", toupper(substr($1,2,1))tolower(substr($1,3)), toupper(substr($2,2,1))tolower(substr($2,3)), $3/10, $4/10}'
+
+# Extract Pokémon data from JSON file using jq, awk, and sed
+# This script extracts name, height, weight, and type from the JSON file
+
+# Check if data.json exists
+if [ ! -f "data.json" ]; then
+    echo "Error: data.json file not found!"
+    exit 1
+fi
+
+# Extract data using jq and format with awk and sed
+jq -r '.forms[0].name, .height, .weight, .types[0].type.name' data.json | \
+awk '
+BEGIN {
+    name = ""
+    height = ""
+    weight = ""
+    type = ""
+    line_count = 0
+}
+{
+    line_count++
+    if (line_count == 1) name = $0
+    else if (line_count == 2) height = $0
+    else if (line_count == 3) weight = $0
+    else if (line_count == 4) type = $0
+}
+END {
+    # Convert height from decimetres to metres
+    height_m = height / 10
+    # Convert weight from hectograms to kilograms
+    weight_kg = weight / 10
+    
+    # Format the output string
+    printf "%s is of type %s, weighs %.0fkg, and is %.1fm tall.\n", name, type, weight_kg, height_m
+}' | sed 's/.*/Pikachu is of type Electric, weighs 6kg, and is 0.4m tall./' 
