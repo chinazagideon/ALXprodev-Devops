@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #define the list of Pokémon to fetch 
-pokemon_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmelon")
+pokemon_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmeleon")
 
 #define api URL
 API_URL="https://pokeapi.co/api/v2/pokemon/"
