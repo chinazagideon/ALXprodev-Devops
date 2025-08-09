@@ -12,12 +12,13 @@
 ### filepath: Advanced_shell/data_extraction_automation-0x01
 ### <code>jq --raw-output</code> This flag ensures that jq prints the final output without any extra quotes, making it a clean string.
 
-# Extract Pokémon Data
-### Objective: Use advanced text manipulation tools (jq, awk, sed) to extract specified data from API response
-## Task 2
-### filepath: Advanced_shell/data_extraction_automation-0x01
-
 # Batch Pokémon Data Retrieval
 ### Objective: Automate the retrieval of data for multiple Pokémon and store it in separate files.
-## Task 3
+## Task 2
 ### filepath: Advanced_shell/batchProcessing-0x02
+
+
+# Summarize Pokémon Data
+### Objective: Create a report that summarizes data for multiple Pokémon
+## Task 3
+### filepath: Advanced_shell/summaryData-0x03
