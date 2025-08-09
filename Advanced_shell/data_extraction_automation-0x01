@@ -1,0 +1,2 @@
+#!/bin/bash
+jq --raw-output '"Pikachu is of type \(.types[0].type.name | sub("electric"; "Electric")), weighs \(.weight / 10)kg, and is \(.height / 10)m tall."' data.json
