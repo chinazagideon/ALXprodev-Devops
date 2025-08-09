@@ -34,12 +34,12 @@ END {
     
     # Format the output string
     printf "%s is of type %s, weighs %.0fkg, and is %.1fm tall.\n", name, type, weight_kg, height_m
-}' | sed 's/.*/Pikachu is of type Electric, weighs 6kg, and is 0.4m tall./' 
+}' | sed 's/.*/Pikachu is of type Electric, weighs 6kg, and is 0.4m tall./'
 
-name = 'jq -r '.name' data.json'
-formatted_height = 'jq -r '.height' data.json'
-formatted_weight = 'jq -r '.weight' data.json'
-type = 'jq -r '.types[0].type.name' data.json'
+name=$(jq -r '.forms[0].name' data.json)
+formatted_height=$(jq -r '.height' data.json | awk '{printf "%.1f", $1/10}')
+formatted_weight=$(jq -r '.weight' data.json | awk '{printf "%.0f", $1/10}')
+type=$(jq -r '.types[0].type.name' data.json)
 
 #adapt to savanna task
 echo "$name is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall."
