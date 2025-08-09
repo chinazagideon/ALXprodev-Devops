@@ -37,13 +37,9 @@ END {
 }' | sed 's/.*/Pikachu is of type Electric, weighs 6kg, and is 0.4m tall./' 
 
 name = 'jq -r '.name' data.json'
-height = 'jq -r '.height' data.json'
-weight = 'jq -r '.weight' data.json'
+formatted_height = 'jq -r '.height' data.json'
+formatted_weight = 'jq -r '.weight' data.json'
 type = 'jq -r '.types[0].type.name' data.json'
 
-echo $name
-echo $height
-echo $weight
-echo $type
-
-echo "${name} is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall.
+#adapt to savanna task
+echo "$name is of type $type, weighs ${formatted_weight}kg, and is ${formatted_height}m tall."
