@@ -22,3 +22,8 @@
 ### Objective: Create a report that summarizes data for multiple Pokémon
 ## Task 3
 ### filepath: Advanced_shell/summaryData-0x03
+
+# Error Handling and Retry Logic
+### Objective: Add robust error handling and retry logic for API requests
+## Task 4
+### filepath: Advanced_shell/batchProcessing-0x02
