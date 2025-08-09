@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#define the list of Pokémon to fetch 
+pokemon_list=("bulbasaur" "ivysaur" "venusaur" "charmander" "charmelon")
+
+#define api URL
+API_URL="https://pokeapi.co/api/v2/pokemon/"
+
+#define output directory, create if not exist
+OUTPUT_DIR="pokemon_data"
+mkdir -p "$OUTPUT_DIR"
+
+#loop through the list of Pokémon and fetch the data
+for pokemon in "${pokemon_list[@]}"; do
+    echo "Fetching data for $pokemon..."
+
+    #construct the full URL for the current Pokémon
+    pokemon_url="$API_URL$pokemon"
+    output_file="$OUTPUT_DIR/$pokemon.json"
+
+    # Make API request
+    curl -s -o "$output_file" "$pokemon_url" 
+
+    if [ $? -eq 0 ]; then
+        echo "Data saved to $output_file"
+        echo "Data fetched successfully!"
+    else
+        echo "Failed to fetch data for $pokemon"
+    fi
+
+    sleep 1
+
+done
