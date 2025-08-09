@@ -9,6 +9,9 @@ API_URL="https://pokeapi.co/api/v2/pokemon/"
 OUTPUT_DIR="pokemon_data"
 mkdir -p "$OUTPUT_DIR"
 
+# an array to store the PIDs of the background processes
+pids=()
+
 echo "Parallel processing of Pokémon data retrieval..."
 
 # loop through the list of Pokémon and fetch the data
@@ -21,9 +24,42 @@ for pokemon in "${pokemon_list[@]}"; do
     
     echo "fetching data for $pokemon in the background..."
     curl -s -o "$output_file" "$pokemon_url" &
+
+    # store the PID of the background process
+    pids+=($!)
+    echo "Started process with PID: ${pids[-1]} for $pokemon."
 done
 
-# wait for all background processes to complete
-wait
+TIMEOUT=5 #5 seconds
+
+start_time=$(date +%s)
+
+# monitor process
+while true; do
+    current_time=$(date +%s)
+
+    #check for timeout 
+    if [ $((current_time - $start_time)) -gt $TIMEOUT ]; then
+        echo "Timeout reached. Terminating remaining processes..."
+
+        #terminate remaining processes
+        for pid in "${pids[@]}"; do
+            if kill -0 $pid 2>/dev/null; then
+                echo "Killing PID $pid..."
+                kill $pid 2>/dev/null
+            fi
+        done
+        break
+    fi
+
+    #check if all processes are finished
+    if ! jobs -p >/dev/null; then
+        echo "All processes completed."
+        break
+    fi
+
+    #wait for 1 second before checking again
+    sleep 1
+done
 
 echo "All data fetching completed!"
