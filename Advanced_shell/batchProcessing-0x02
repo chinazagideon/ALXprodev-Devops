@@ -10,24 +10,44 @@ API_URL="https://pokeapi.co/api/v2/pokemon/"
 OUTPUT_DIR="pokemon_data"
 mkdir -p "$OUTPUT_DIR"
 
+#max retries
+MAX_RETRIES=3
+
+#retry time
+RETRY_TIME=2 #seconds
+
+
 #loop through the list of Pokémon and fetch the data
 for pokemon in "${pokemon_list[@]}"; do
     echo "Fetching data for $pokemon..."
+
+    #initialise retries counter
+    retries=0
+
 
     #construct the full URL for the current Pokémon
     pokemon_url="$API_URL$pokemon"
     output_file="$OUTPUT_DIR/$pokemon.json"
 
-    # Make API request
-    curl -s -o "$output_file" "$pokemon_url" 
+    while [ $retries -lt $MAX_RETRIES ]; do
+        echo "Attempt $retries of $MAX_RETRIES..."
 
-    if [ $? -eq 0 ]; then
-        echo "Data saved to $output_file"
-        echo "Data fetched successfully!"
-    else
-        echo "Failed to fetch data for $pokemon"
+        #make API request
+        curl -s -o "$output_file" "$pokemon_url"
+
+        if [ $? -eq 0 ]; then
+            echo "Data saved to $output_file"
+            echo "Data fetched successfully!"
+            break
+        else
+            retries=$((retries + 1))
+            echo "Attempt $retries of $MAX_RETRIES failed. Retrying in $RETRY_TIME seconds..."
+            sleep $RETRY_TIME
+        fi
+
+    done
+
+    if [ $retries -eq $MAX_RETRIES ]; then
+        echo "Failed to fetch data for $pokemon after $MAX_RETRIES attempts."
     fi
-
-    sleep 1
-
 done
