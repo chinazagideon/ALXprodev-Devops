@@ -1,6 +1,6 @@
 Pokemon,Type,Height (m),Weight (kg)
-"Bulbasaur",0.7,6.9
-"Charmander",0.6,8.5
-"Charmeleon",1.1,19
-"Ivysaur",1,13
-"Venusaur",2,100
+u"bulbasaur",0.7,6.9
+u"charmander",0.6,8.5
+u"charmeleon",1.1,19
+u"ivysaur",1,13
+u"venusaur",2,100
